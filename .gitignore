@@ -163,3 +163,4 @@ cython_debug/
 
 *.pyc
 djangoproject/__pycache__
+note.txt

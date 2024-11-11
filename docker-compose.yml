@@ -1,5 +1,16 @@
 name: djangotutorial_container
 services:
+  mysqldb:
+    container_name: mysql-container
+    image: mysql:8.4
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=djangotutorial
+    ports:
+      - 3361:3306
   web:
     container_name: djangotutorial_web
     build: .
@@ -8,3 +19,16 @@ services:
       - .:/code
     ports:
       - "8011:8000"
+    environment:
+      - YOUR_SECRET_KEY=
+      - SQL_ENGINE=django.db.backends.mysql
+      - SQL_DATABASE=djangotutorial
+      - SQL_USER=admin
+      - SQL_PASSWORD=admin
+      - SQL_HOST=mysqldb
+      - SQL_PORT=3306
+    links:
+      - mysqldb
+    depends_on:
+      - mysqldb
+    
